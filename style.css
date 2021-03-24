@@ -10,3 +10,9 @@ h1 {
     margin-top: 450px;
     font-size: xx-large;
 }
+
+a {
+    color: rgb(0, 0, 0);
+    border: none;
+    text-decoration: none;
+}
