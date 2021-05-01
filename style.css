@@ -1,18 +1,30 @@
 body {
-    height: 900px;
-    width: 100%;
+    width: 95%;
 }
 
 
 h1 {
-    margin-left: 45%;
-    width: 100%;
-    margin-top: 450px;
+    width: 95%;
     font-size: xx-large;
+    text-align: center;
+    margin-top: 450px;
+    left: 0;
+    position: absolute;
 }
 
 a {
     color: rgb(0, 0, 0);
     border: none;
     text-decoration: none;
+}
+
+
+/*============================
+スマホ端末 441px未満
+============================*/
+
+@media screen and (max-width: 440px) {
+    h1 {
+        margin-top: 300px;
+    }
 }
