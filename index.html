@@ -3,13 +3,496 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>警告</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ">
+    <title>Twitterコマンドメーカー</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/plasticine/50/000000/twitter--v1.png">
+    <style>
+        ;*, *::before, *::after {
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            font-style: sans-serif;
+        }
+
+        header {
+            width: 100%;
+            background-color: #2ba1e1;
+            height: 80px;
+            left: 0;
+            top: 0;
+            color: white;
+            position: fixed;
+            
+        }
+
+        
+        .header-first h1 {
+            margin-left: 10%;
+            margin-top: 30px;
+            font-size: 30px;
+            line-height: 25px;
+            color: #fff;
+        }
+
+        .main {
+            padding-top: 100px;
+            margin-left: 28%;
+        }
+
+
+        .date {
+            margin-top: 1px;
+            margin-bottom: 1px;
+            font-weight: bold;
+        }
+
+        .Eoriginal-button {
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: medium;
+            border-radius: 5px;
+            height: 25px;
+            font-weight: bold;
+            transition: 0.3s;
+            background-color: #414141;
+            border: none;
+            font-family: fantasy;
+            
+        }
+
+        .Eoriginal-button:hover {
+            opacity: .7;
+            box-shadow: 0 1px 5px 1px rgba(0, 162, 255, 0.509);
+        }
+
+        .original-button {
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 18px;
+            border-radius: 5px;
+            width: 60px;
+            height: 30px;
+            font-weight: bold;
+            transition: 0.3s;
+            border: #52caff;
+            box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.667);
+            background-color: #797979;
+            border: 2px solid #727272;
+        }
+
+        .original-button:hover {
+            box-shadow: 0 0 rgba(0, 166, 255, 0.715);
+            border-bottom-width: 2px;
+            transform: translateY(2px);
+        }
+
+        #search {
+            background-color: #52caff; 
+            border: 2px solid #52caff; 
+            border-radius: 10px; 
+            color: #fff; 
+            padding:4px 20px; 
+            -webkit-transition: all .3s; 
+            transition: all .3s;
+            width: 90px;
+            text-align: center 
+        }
+
+        #search:hover {
+            background-color: #fff; 
+            color: #55acee;
+        }
+
+        .form {
+            width: 44%;
+            border: 2px solid #aaa;
+            border-radius: 4px;
+            margin: 8px 0;
+            outline: none;
+            padding: 8px;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+
+        .form:focus {
+            border-color: dodgerBlue;
+            box-shadow: 0 0 8px 0 dodgerBlue;
+        }
+
+        
+        /*----------------------------
+        * メニュー開閉ボタン
+        *----------------------------*/
+        .menu-btn{
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 2;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #4169e1;
+        color: #fff;
+        border: 2px solid #204ac8;
+        border-radius: 5px;
+        }
+
+        /*----------------------------
+        * メニュー本体
+        *----------------------------*/
+        .menu{
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 1;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.516);
+        }
+        .menu__item{
+        width: 100%;
+        height: auto;
+        padding: .5em 1em;
+        text-align: center;
+        color: #fff;
+        box-sizing: border-box;
+        }
+
+        /*----------------------------
+        * アニメーション部分
+        *----------------------------*/
+
+        /* アニメーション前のメニューの状態 */
+        .menu{
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity .3s linear;
+        }
+        /* アニメーション後のメニューの状態 */
+        .menu.is-active{
+        pointer-events: auto;
+        opacity: 1;
+        }
+
+        h2 {
+            position: relative;
+            display: inline-block;
+            padding: 0 65px;
+            text-align: center;
+        }
+
+        h2:before,
+        h2:after {
+            position: absolute;
+            top: calc(50% - 3px);
+            width: 50px;
+            height: 6px;
+            content: '';
+            border-top: solid 2px rgb(193, 193, 193);
+            border-bottom: solid 2px rgb(193, 193, 193);
+        }
+
+        h2:before {
+            left: 0;
+        }
+
+        h2:after {
+            right: 0;
+        }
+
+        a {
+            text-decoration:none; 
+            color: #fff;
+        }
+
+        a:hover {
+            color: rgb(213, 213, 213);
+        }
+
+
+        /*============================
+      タブレット端末 1001px未満
+      ============================*/
+
+      @media screen and (max-width: 1000px) {
+        .header-first h1 {
+                font-family: monospace;
+        }
+
+          h1 {
+              font-family: monospace;
+          }
+
+          .main {
+            padding-top: 100px;
+            margin-left: 1%;
+          }
+
+          .date {
+              font-size: x-large;
+              font-family: monospace;
+          }
+
+          .form {
+              width: 50%;
+          }
+
+          .original-button {
+              width: 90px;
+          }
+      }
+
+      /*============================
+      スマホ端末 441px未満
+      ============================*/
+
+      @media screen and (max-width: 440px) {
+        .header-first h1 {
+                font-family: monospace;
+        }
+
+          
+          h1 {
+              font-family: monospace;
+          }
+          
+        .main {
+            padding-top: 85px;
+        }
+
+          .date {
+              font-size: larger;
+              font-family: monospace;
+              width: 50%;
+              margin: 2px;
+          }
+
+          p {
+              margin: 0px;
+          }
+
+          .header-first h1 {
+              font-size: large;
+              margin-left: 5%;
+          }
+
+          .form {
+              width: 60%;
+          }
+      }
+
+    </style>
 </head>
 <body>
-    <h1><a href="https://pbs.twimg.com/profile_images/504970590965358593/Dqc4znnQ_400x400.jpeg" onclick="makeClick()" >ここ押してみ？</a></h1>
-    
-    <script src="script.js"></script>
+    <header>
+        <div class="header-first">
+                <h1>Twitterコマンドメーカー</h1>
+        </div>
+    </header>
+    <div class="main">
+        <p class="date">検索ワード</p>
+        <input type="text" class="form" id="text">
+        <p class="date">だれの</p>
+        <input type="text" class="form" id="name" placeholder="ユーザーID">
+        <p class="date">いつから</p>
+        <input type="date" class="form" id="since">
+        <p class="date">いつまで</p>
+        <input type="date" class="form" id="until">
+        <p class="date">条件</p>
+        <input type="button" value="動画"  class="Eoriginal-button" onclick="videosClick()">
+      <input type="button" value="画像" class="Eoriginal-button" onclick="imagesClick()">
+        <input type="button" value="画像と動画" class="Eoriginal-button" onclick="mediaClick()" id="">
+        <p class="date">除外ワード</p>
+        <input type="text" class="form" id="word">
+        <br>
+        <button value="もじ" onclick="makeClick()"  class="original-button">作成</button>
+        <h1 id="result"></h1>
+        <a onclick="ErrClick()" id="search" href="" target="_blank"><span class="fa fa-twitter">検索する</span></a>
+    </div>
+      <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+      <script>
+
+        var video = "";
+        var Tvideo = "";
+
+        var image = "";
+        var Timage = "";  
+        
+        var media = "";
+        var Tmedia = "";
+
+        var nega = "";
+        var posi = "";
+        var negaposi = "";
+        var Tnega = "";
+        var Tposi = "";
+        var Tnegaposi = "";
+
+        document.getElementById("search").style.display ="none";
+
+        function videosClick() {
+            video = "videos"
+            image = ""
+            media = ""
+        }
+
+        function imagesClick() {
+            image = "images"
+            video = ""
+            media = ""
+        }
+
+        function mediaClick() {
+            image = ""
+            video = ""
+            media = "media"
+        }
+
+        function negativeClick() {
+            posi = ""
+            nega = " :("
+            negaposi = " :("
+        }
+
+        function positiveClick() {
+            posi = " :)"
+            nega = ""
+            negaposi = " :)"
+        }
+
+        function makeClick() {
+            var text = document.getElementById('text').value + " "
+            var Ttext = document.getElementById('text').value + "%20"
+
+            if (text == " "){
+                text = ""
+            }
+            if (Ttext == "%20") {
+                Ttext = ""
+            }
+
+            var userName = "from:" + document.getElementById('name').value + " "
+            var TuserName = "from%3A" + document.getElementById('name').value + "%20"
+            //console.log(userName);
+
+            if (userName == "from: "){
+                userName = ""
+            }
+            if (TuserName == "from%3A%20") {
+                TuserName = ""
+            }
+
+            var since = "since:" + document.getElementById('since').value
+            var Tsince = "since%3A" + document.getElementById('since').value
+            //console.log(since);
+
+            if (since == "since:"){
+                since = ""
+            }
+            if (Tsince == "since%3A"){
+                Tsince = ""
+            }
+
+            var until = "until:" + document.getElementById('until').value
+            var Tuntil = "until%3A" + document.getElementById('until').value
+            //console.log(until);
+
+            if (until == "until:"){
+                until = ""
+            }
+            if (Tuntil == "until%3A"){
+                Tuntil = ""
+            }
+            
+            
+            if (video == "" && image == "" && media == "media") {
+                var med = "filter:media"
+                var Tmed = "filter%3Amedia";
+                console.log(med);
+            } else if(video == "videos" && image == "" && media == "") {
+                var med = "filter:videos"
+                var Tmed = "filter%3Avideos"
+                console.log(med);
+            } else if(video == "" && image == "images" && media == "") {
+                var med = "filter:images"
+                var Tmed = "filter%3Aimages"
+                console.log(med);
+            } else if (video == "" && image == "" && media == "") {
+                var med = ""
+                var Tmed = ""
+                console.log(med);
+            }
+            
+
+            /*if (nega == "" && posi == " :)") {
+                var posinega = " :)"
+            } else if (nega == " :(" && posi == "") {
+                var posinega = " :)"
+            }*/
+
+            var word = ' -"' + document.getElementById('word').value + '"'
+
+            if (word == ' -""'){
+                word = ''
+            }
+
+            console.log(userName +" " + since +" " + until +" " + med );
+            document.getElementById('result').innerText = text + userName + since + until + med + word;
+
+            var disp = text + userName + since + until + med + word
+            var Tdisp = Ttext + TuserName + Tsince + Tuntil + Tmed + word
+            
+
+
+            /*
+            if(movie == true) {
+                var movies = "movies"
+            }else {
+                console.log("Movie-false");
+            }
+            */
+            //const search = document.getElementById('search');
+            document.getElementById("search").style.display ="block";
+            console.log(Tdisp)
+            var target = document.getElementById("search");
+            target.href = "https://twitter.com/search?q=" + Tdisp
+        }
+
+        /*function ErrClick() {
+            if (Tdisp == '') {
+                alert('未入力です');
+            }
+            
+            
+        }*/
+
+        function copyClick() {
+            var copyed = document.getElementById('result');
+            //copyed.select();
+            document.execCommand("Copy");
+        }
+
+        $(function(){
+            $('.menu-btn').on('click', function(){
+                $('.menu').toggleClass('is-active');
+            });
+        }());
+
+    </script>
 </body>
 </html>
